@@ -1,0 +1,30 @@
+# Git ignore patterns for TaskFlow
+
+# Environment files (NEVER commit these)
+.env
+.env.local
+.env.production
+
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+build/
+.next/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Database migrations (keep generated SQL in git if desired)
+# src/db/migrations/*.sql  <- remove this line to track migrations
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/settings.json
+.idea/
