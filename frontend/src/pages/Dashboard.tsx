@@ -92,7 +92,6 @@ export const Dashboard = () => {
           </button>
         </div>
 
-        {/* Stats Cards */}
         <div className="dashboard-stats">
           <div className="card stat-card stat-total">
             <p className="stat-label">Total</p>
@@ -112,7 +111,6 @@ export const Dashboard = () => {
           </div>
         </div>
 
-        {/* Filter Pills */}
         <div className="filters-bar">
           {STATUSES.map((s) => (
             <button
@@ -126,7 +124,6 @@ export const Dashboard = () => {
           ))}
         </div>
 
-        {/* Tasks Grid */}
         {loading ? (
           <div className="loading-center"><div className="spinner" /></div>
         ) : tasks.length === 0 ? (
@@ -146,7 +143,6 @@ export const Dashboard = () => {
           </div>
         )}
 
-        {/* Pagination */}
         {tasks.length > 0 && (
           <div className="pagination">
             <button className="page-btn" disabled={page === 1} onClick={() => setPage((p) => p - 1)}>‹</button>
