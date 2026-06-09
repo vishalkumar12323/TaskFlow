@@ -1,16 +1,16 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useRef } from 'react';
 
 export type ToastType = 'success' | 'error' | 'info';
 
 interface Toast {
-  id:      string;
+  id: string;
   message: string;
-  type:    ToastType;
+  type: ToastType;
 }
 
 interface ToastContainerProps {
-  toasts:  Toast[];
-  remove:  (id: string) => void;
+  toasts: Toast[];
+  remove: (id: string) => void;
 }
 
 const ICONS = { success: '✓', error: '✕', info: 'ℹ' };
@@ -45,7 +45,7 @@ export const useToast = () => {
     toasts,
     remove,
     success: (msg: string) => add(msg, 'success'),
-    error:   (msg: string) => add(msg, 'error'),
-    info:    (msg: string) => add(msg, 'info'),
+    error: (msg: string) => add(msg, 'error'),
+    info: (msg: string) => add(msg, 'info'),
   };
 };
