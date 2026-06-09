@@ -1,4 +1,4 @@
-import './config/env'; // Validate env vars first
+import './config/env';
 import app from './app';
 import { env } from './config/env';
 import { pool } from './db';
@@ -9,7 +9,7 @@ const server = app.listen(env.PORT, () => {
   logger.info(`📋 Health: http://localhost:${env.PORT}/api/v1/health`);
 });
 
-// ─── Graceful Shutdown ───────────────────────────────────────────────────────
+// ─── Graceful Shutdown ────────────────────────────────────
 const shutdown = async (signal: string) => {
   logger.warn(`⚠️  ${signal} received — shutting down gracefully`);
   server.close(async () => {
@@ -20,6 +20,6 @@ const shutdown = async (signal: string) => {
 };
 
 process.on('SIGTERM', () => shutdown('SIGTERM'));
-process.on('SIGINT',  () => shutdown('SIGINT'));
-process.on('uncaughtException',  (err) => { logger.error('Uncaught Exception', { err }); process.exit(1); });
+process.on('SIGINT', () => shutdown('SIGINT'));
+process.on('uncaughtException', (err) => { logger.error('Uncaught Exception', { err }); process.exit(1); });
 process.on('unhandledRejection', (err) => { logger.error('Unhandled Rejection', { err }); process.exit(1); });

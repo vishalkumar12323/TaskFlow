@@ -4,7 +4,7 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import rateLimit from 'express-rate-limit';
 
-import authRouter  from './modules/auth/auth.router';
+import authRouter from './modules/auth/auth.router';
 import tasksRouter from './modules/tasks/tasks.router';
 import adminRouter from './modules/admin/admin.router';
 import { errorHandler } from './middleware/error.middleware';
@@ -19,7 +19,7 @@ app.use(helmet());
 // ─── CORS ────────────────────────────────────────────────────────────────────
 app.use(cors({
   origin: env.NODE_ENV === 'production'
-    ? ['https://your-frontend-domain.com']
+    ? [`${process.env.CLIENT_URL}`]
     : ['http://localhost:5173', 'http://localhost:3000'],
   credentials: true,
 }));
@@ -56,7 +56,7 @@ app.get('/api/v1/health', (_req, res) => {
 });
 
 // ─── API Routes ──────────────────────────────────────────────────────────────
-app.use('/api/v1/auth',  authLimiter, authRouter);
+app.use('/api/v1/auth', authLimiter, authRouter);
 app.use('/api/v1/tasks', tasksRouter);
 app.use('/api/v1/admin', adminRouter);
 
