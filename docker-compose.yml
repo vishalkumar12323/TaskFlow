@@ -1,20 +1,18 @@
-version: '3.8'
-
 services:
   postgres:
     image: postgres:16-alpine
     container_name: taskflow-db
     restart: unless-stopped
     environment:
-      POSTGRES_USER:     postgres
+      POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB:       taskdb
+      POSTGRES_DB: taskdb
     ports:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -29,11 +27,11 @@ services:
       postgres:
         condition: service_healthy
     environment:
-      DATABASE_URL:   postgresql://postgres:postgres@postgres:5432/taskdb
-      JWT_SECRET:     super_secret_jwt_key_change_in_production
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/taskdb
+      JWT_SECRET: b5118ac2c9bd8979f2bb45258a06e8948c0e128f90a5dffd441205e41702bffae56da2c4202f30325fac59e3b39236c8b2e01
       JWT_EXPIRES_IN: 7d
-      PORT:           3001
-      NODE_ENV:       production
+      PORT: 3001
+      NODE_ENV: production
     ports:
       - "3001:3001"
 
