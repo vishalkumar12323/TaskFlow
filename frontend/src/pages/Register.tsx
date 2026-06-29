@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 export const Register = () => {
   const { register } = useAuth();
-  const navigate     = useNavigate();
+  const navigate = useNavigate();
 
-  const [form,    setForm]    = useState({ email: '', username: '', password: '', confirm: '' });
-  const [error,   setError]   = useState('');
+  const [form, setForm] = useState({ email: '', username: '', password: '', confirm: '' });
+  const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handle = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -17,7 +17,7 @@ export const Register = () => {
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (form.password !== form.confirm) { setError('Passwords do not match'); return; }
-    if (form.password.length < 8)       { setError('Password must be at least 8 characters'); return; }
+    if (form.password.length < 8) { setError('Password must be at least 8 characters'); return; }
     setLoading(true); setError('');
     try {
       await register(form.email, form.username, form.password);
