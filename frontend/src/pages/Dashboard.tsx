@@ -147,7 +147,7 @@ export const Dashboard = () => {
           <div className="pagination">
             <button className="page-btn" disabled={page === 1} onClick={() => setPage((p) => p - 1)}>‹</button>
             <button className="page-btn active">{page}</button>
-            <button className="page-btn" onClick={() => setPage((p) => p + 1)}>›</button>
+            <button className="page-btn" disabled={page === 1} onClick={() => setPage((p) => p + 1)}>›</button>
           </div>
         )}
       </main>
