@@ -1,33 +1,34 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
+import { type ReactNode } from "react"
 import { api } from '../api/client';
 
 interface User {
-  id:        string;
-  email:     string;
-  username:  string;
-  role:      'USER' | 'ADMIN';
+  id: string;
+  email: string;
+  username: string;
+  role: 'USER' | 'ADMIN';
   createdAt: string;
 }
 
 interface AuthContextType {
-  user:     User | null;
-  token:    string | null;
+  user: User | null;
+  token: string | null;
   isLoading: boolean;
-  login:    (email: string, password: string) => Promise<void>;
+  login: (email: string, password: string) => Promise<void>;
   register: (email: string, username: string, password: string) => Promise<void>;
-  logout:   () => void;
+  logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user,      setUser]      = useState<User | null>(null);
-  const [token,     setToken]     = useState<string | null>(null);
+  const [user, setUser] = useState<User | null>(null);
+  const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
-    const storedUser  = localStorage.getItem('user');
+    const storedUser = localStorage.getItem('user');
     if (storedToken && storedUser) {
       setToken(storedToken);
       setUser(JSON.parse(storedUser));
@@ -39,7 +40,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const { data } = await api.post('/auth/login', { email, password });
     const { token: t, user: u } = data.data;
     localStorage.setItem('token', t);
-    localStorage.setItem('user',  JSON.stringify(u));
+    localStorage.setItem('user', JSON.stringify(u));
     setToken(t);
     setUser(u);
   };
@@ -48,7 +49,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const { data } = await api.post('/auth/register', { email, username, password });
     const { token: t, user: u } = data.data;
     localStorage.setItem('token', t);
-    localStorage.setItem('user',  JSON.stringify(u));
+    localStorage.setItem('user', JSON.stringify(u));
     setToken(t);
     setUser(u);
   };
