@@ -2,29 +2,29 @@ import React, { useState, useEffect } from 'react';
 import type { Task } from './TaskCard';
 
 interface Props {
-  task?:      Task | null;  // null = create mode
-  onSubmit:   (data: TaskFormData) => Promise<void>;
-  onClose:    () => void;
+  task?: Task | null;
+  onSubmit: (data: TaskFormData) => Promise<void>;
+  onClose: () => void;
 }
 
 export interface TaskFormData {
-  title:       string;
+  title: string;
   description: string;
-  status:      'TODO' | 'IN_PROGRESS' | 'DONE';
-  priority:    'LOW' | 'MEDIUM' | 'HIGH';
-  dueDate:     string;
+  status: 'TODO' | 'IN_PROGRESS' | 'DONE';
+  priority: 'LOW' | 'MEDIUM' | 'HIGH';
+  dueDate: string;
 }
 
 export const TaskForm = ({ task, onSubmit, onClose }: Props) => {
-  const [form, setForm]       = useState<TaskFormData>({
-    title:       task?.title       ?? '',
+  const [form, setForm] = useState<TaskFormData>({
+    title: task?.title ?? '',
     description: task?.description ?? '',
-    status:      task?.status      ?? 'TODO',
-    priority:    task?.priority    ?? 'MEDIUM',
-    dueDate:     task?.dueDate ? task.dueDate.split('T')[0] : '',
+    status: task?.status ?? 'TODO',
+    priority: task?.priority ?? 'MEDIUM',
+    dueDate: task?.dueDate ? task.dueDate.split('T')[0] : '',
   });
   const [loading, setLoading] = useState(false);
-  const [error,   setError]   = useState('');
+  const [error, setError] = useState('');
 
   const handle = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
