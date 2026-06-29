@@ -1,21 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { api } from '../api/client';
 import { Navbar } from '../components/Navbar';
 import { ToastContainer, useToast } from '../components/Toast';
 
 interface UserRow {
-  id:        string;
-  email:     string;
-  username:  string;
-  role:      'USER' | 'ADMIN';
+  id: string;
+  email: string;
+  username: string;
+  role: 'USER' | 'ADMIN';
   createdAt: string;
 }
 
 export const AdminPanel = () => {
-  const toast                         = useToast();
-  const [users,      setUsers]        = useState<UserRow[]>([]);
-  const [loading,    setLoading]      = useState(true);
-  const [updating,   setUpdating]     = useState<string | null>(null);
+  const toast = useToast();
+  const [users, setUsers] = useState<UserRow[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [updating, setUpdating] = useState<string | null>(null);
 
   const fetchUsers = async () => {
     setLoading(true);
