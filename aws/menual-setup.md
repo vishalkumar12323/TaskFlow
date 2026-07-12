@@ -40,3 +40,50 @@ Port 80           Port 5000            Port 5432
     | 22           |   SSH              |
     | 80           |   HTTP             |
     | 443          |   HTTPS            |
+
+
+## Machine Configs and Required Software installation
+
+```bash
+    sudo apt update
+
+    sudo apt install nginx
+
+    sudo apt install git
+
+    sudo apt install nodejs npm
+
+    sudo apt install postgresql postgresql-contrib
+
+    sudo npm install -g pm2
+```
+
+## Clone Respository
+```bash
+    cd ~
+    git clone https://github.com/vishalkumar12323/TaskFlow.git
+    cd TaskFlow
+```
+
+
+## PostgreSQL Setup
+```bash
+    # connect to psql cmd
+    sudo -u postgres psql
+
+    # Create Database and User
+    CREATE DATABASE taskdb;
+
+    CREATE USER taskdbuser WITH PASSWORD 'StrongPassword';
+
+    GRANT ALL PRIVILEGES
+    ON DATABASE taskdb
+    TO taskdbuser;
+
+    # Grant Permissions
+    GRANT ALL ON SCHEMA public TO taskflowuser;
+
+    GRANT CREATE ON SCHEMA public TO taskflowuser;
+
+    GRANT USAGE ON SCHEMA public TO taskflowuser;
+```
