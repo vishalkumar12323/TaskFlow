@@ -87,3 +87,38 @@ Port 80           Port 5000            Port 5432
 
     GRANT USAGE ON SCHEMA public TO taskflowuser;
 ```
+
+## Backend Setup
+```bash
+    cd backend
+
+    npm install # install all required deps
+
+    touch .env # create .env file
+
+    PORT=5000
+    DATABASE_URL=postgresql://taskdbuser:password@localhost:5432/taskdb
+    JWT_SECRET=xxxxxxxx
+    JWT_EXPIRES_IN=7d
+    NODE_ENV=production
+
+
+    # Run migrations
+    npm run db:migrate
+```
+
+## Start Backend
+```bash
+
+    # build the project
+    npm run build
+
+    pm2 start npm --name taskflow-api -- start
+    pm2 save
+    pm2 startup
+
+    # checking pm2 status and logs
+    pm2 status
+    pm2 -n taskflow-api logs
+```
+
