@@ -139,3 +139,58 @@ Port 80           Port 5000            Port 5432
     # build
     npm run build
 ```
+
+## Nginx Config As Reverse-Proxy
+```bash
+    sudo nano /etc/nginx/sites-available/taskflow
+```
+
+## Content
+```bash
+    server {
+        listen 80;
+
+        server_name EC2_PUBLIC_IP
+
+        root /home/ubuntu/projects/TaskFlow/frontend/dist;
+
+        index index.html
+
+        location / {
+            try_files $uri index.html
+        }
+
+        location /api/v1/ {
+            proxy_pass http://localhost:3001
+            proxy_http_version 1.1
+
+            proxy_set_header Upgrade $http_upgrade
+            proxy_set_header Connection 'upgrade'
+            proxy_set_header Host $host
+
+            proxy_cache_bypass $http_upgrade
+        }
+    }
+```
+
+## Enable
+```bash
+    sudo ln -s \
+    /etc/nginx/sites-available/taskflow \
+    /etc/nginx/sites-enabled/
+
+    # Test
+    sudo nginx -t
+
+    # Restart nginx
+    sudo systemctl restart nginx
+```
+
+## Firewall (ubuntu)
+```bash
+    sudo ufw allow OpenSSH
+
+    sudo ufw allow 'Nginx Full'
+
+    sudo ufw enable
+```
