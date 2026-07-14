@@ -74,18 +74,20 @@ Port 80           Port 5000            Port 5432
     # Create Database and User
     CREATE DATABASE taskdb;
 
-    CREATE USER taskdbuser WITH PASSWORD 'StrongPassword';
+    CREATE USER taskdbuser WITH PASSWORD 'password';
 
     GRANT ALL PRIVILEGES
     ON DATABASE taskdb
     TO taskdbuser;
 
     # Grant Permissions
-    GRANT ALL ON SCHEMA public TO taskflowuser;
+    GRANT ALL ON SCHEMA public TO taskdbuser;
 
-    GRANT CREATE ON SCHEMA public TO taskflowuser;
+    GRANT CREATE ON SCHEMA public TO taskdbuser;
 
-    GRANT USAGE ON SCHEMA public TO taskflowuser;
+    GRANT USAGE ON SCHEMA public TO taskdbuser;
+
+    ALTER SCHEMA public OWNER TO taskdbuser;
 ```
 
 ## Backend Setup
@@ -122,3 +124,18 @@ Port 80           Port 5000            Port 5432
     pm2 -n taskflow-api logs
 ```
 
+## Frontend Setup
+```bash
+    cd frontend
+    npm install
+
+    # create .env file
+    touch .env
+
+    # edit with nano
+    sudo nano .env
+    VITE_API_URL=http://YOUR_EC2_IP/api/v1
+
+    # build
+    npm run build
+```
