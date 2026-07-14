@@ -194,3 +194,12 @@ Port 80           Port 5000            Port 5432
 
     sudo ufw enable
 ```
+
+## Test
+```bash
+    # Frontend (Browser)
+    http://EC2_PUBLIC_IP
+
+    # Backend 
+    http://EC2_PUBLIC_IP/api/v1/health
+```
