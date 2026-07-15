@@ -134,7 +134,7 @@ Port 80           Port 5000            Port 5432
 
     # edit with nano
     sudo nano .env
-    VITE_API_URL=http://YOUR_EC2_IP/api/v1
+    VITE_API_BASE_URL=http://YOUR_EC2_IP/api/v1
 
     # build
     npm run build
