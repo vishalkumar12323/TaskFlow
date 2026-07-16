@@ -138,6 +138,14 @@ Port 80           Port 5000            Port 5432
 
     # build
     npm run build
+
+    sudo mkdir -p /var/www/taskflow
+    sudo cp -r /home/ubuntu/projects/TaskFlow/frontend/dist/* /var/www/taskflow/
+
+    
+    sudo chown -R www-data:www-data /var/www/taskflow
+    sudo find /var/www/taskflow -type d -exec chmod 755 {} \;
+    sudo find /var/www/taskflow -type f -exec chmod 644 {} \;
 ```
 
 ## Nginx Config As Reverse-Proxy
