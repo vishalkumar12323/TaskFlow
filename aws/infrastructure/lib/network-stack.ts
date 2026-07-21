@@ -2,11 +2,13 @@ import * as cdk from 'aws-cdk-lib/core';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import { Construct } from 'constructs';
 
-export class InfrastructureStack extends cdk.Stack {
+export class NetworkStack extends cdk.Stack {
+  public readonly vpc: ec2.Vpc;
+
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    const vpc = new ec2.Vpc(this, 'TaskFlowVpc', {
+    this.vpc = new ec2.Vpc(this, 'TaskFlowVpc', {
       ipAddresses: ec2.IpAddresses.cidr('10.0.0.0/16'),
       maxAzs: 2,
 
@@ -25,6 +27,6 @@ export class InfrastructureStack extends cdk.Stack {
       natGateways: 1
     });
 
-    cdk.Tags.of(vpc).add('Project', 'TaskFlowFullStackApp');
+    cdk.Tags.of(this.vpc).add('Project', 'TaskFlowFullStackApp');
   }
 }
