@@ -34,7 +34,7 @@ export class ComputeStack extends cdk.Stack {
 
         const ubuntuAmi = ec2.MachineImage.fromSsmParameter('/aws/service/canonical/ubuntu/server/24.04/stable/current/amd64/hvm/ebs-gp3/ami-id');
 
-        const ec2Instance = new ec2.Instance(this, 'TaskFlowEc2', {
+        new ec2.Instance(this, 'TaskFlowEc2', {
             vpc,
             instanceType: ec2.InstanceType.of(
                 ec2.InstanceClass.T3,
