@@ -1,6 +1,8 @@
 import * as cdk from 'aws-cdk-lib/core';
 import { Construct } from 'constructs';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
+import * as fs from 'node:fs';
+import * as path from 'node:path';
 
 interface ComputeStackProps extends cdk.StackProps {
     vpc: ec2.Vpc;
@@ -27,13 +29,24 @@ export class ComputeStack extends cdk.Stack {
         );
 
         const userData = ec2.UserData.forLinux();
-        userData.addCommands(
-            '#!/bin/bash',
-            'echo "User Data script started" > /var/log/user-data.log',
-            'sudo apt update',
-        );
+        const setupScriptPath = fs.readFileSync(path.join(__dirname, '../../setup.sh'), 'utf-8');
+        userData.addCommands(setupScriptPath);
 
-        // const amit = ec2.MachineImage.
+        const ubuntuAmi = ec2.MachineImage.fromSsmParameter('/aws/service/canonical/ubuntu/server/24.04/stable/current/amd64/hvm/ebs-gp3/ami-id');
 
+        const ec2Instance = new ec2.Instance(this, 'TaskFlowEc2', {
+            vpc,
+            instanceType: ec2.InstanceType.of(
+                ec2.InstanceClass.T3,
+                ec2.InstanceSize.MICRO
+            ),
+            machineImage: ubuntuAmi,
+            securityGroup: securityGroup,
+            userData: userData,
+            vpcSubnets: {
+                subnetType: ec2.SubnetType.PUBLIC,
+                subnetGroupName: 'task-flow-public-subnet'
+            }
+        });
     }
 }
