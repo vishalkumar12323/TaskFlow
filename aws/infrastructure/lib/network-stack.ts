@@ -15,18 +15,21 @@ export class NetworkStack extends cdk.Stack {
       subnetConfiguration: [
         {
           cidrMask: 24,
-          name: "task-flow-public-subnet",
-          subnetType: ec2.SubnetType.PUBLIC
-        },
-        {
-          cidrMask: 24,
-          name: "task-flow-private-subnet",
-          subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS
+          name: 'task-flow-public-subnet',
+          subnetType: ec2.SubnetType.PUBLIC,
         },
       ],
-      natGateways: 1
+
+      // No NAT gateway needed — everything runs on a single EC2 in the public subnet
+      natGateways: 0,
     });
 
     cdk.Tags.of(this.vpc).add('Project', 'TaskFlowFullStackApp');
+
+    // ─── Outputs ───────────────────────────────────────────────────────
+    new cdk.CfnOutput(this, 'VpcId', {
+      value: this.vpc.vpcId,
+      description: 'TaskFlow VPC ID',
+    });
   }
 }
