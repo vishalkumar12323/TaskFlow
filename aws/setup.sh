@@ -29,7 +29,6 @@ apt-get install -y \
   postgresql \
   postgresql-contrib \
   build-essential \
-  awscli \
   jq
 
 # Node.js 22.x
