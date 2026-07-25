@@ -21,7 +21,7 @@ export class ComputeStack extends cdk.Stack {
     const securityGroup = new ec2.SecurityGroup(this, 'Ec2SecurityGroup', {
       vpc,
       allowAllOutbound: true,
-      description: 'TaskFlow EC2 — allows SSH, HTTP, and HTTPS inbound',
+      description: 'TaskFlow EC2 - allows SSH, HTTP, and HTTPS inbound',
     });
 
     securityGroup.addIngressRule(
@@ -47,7 +47,7 @@ export class ComputeStack extends cdk.Stack {
     // config) and write CloudWatch Logs (for monitoring).
     const role = new iam.Role(this, 'Ec2Role', {
       assumedBy: new iam.ServicePrincipal('ec2.amazonaws.com'),
-      description: 'TaskFlow EC2 instance role — SSM params + CloudWatch Logs',
+      description: 'TaskFlow EC2 instance role - SSM params + CloudWatch Logs',
       managedPolicies: [
         iam.ManagedPolicy.fromAwsManagedPolicyName('CloudWatchAgentServerPolicy'),
       ],
@@ -132,7 +132,7 @@ export class ComputeStack extends cdk.Stack {
 
     new cdk.CfnOutput(this, 'ElasticIp', {
       value: eip.attrPublicIp,
-      description: 'TaskFlow Elastic IP — use this to access your app',
+      description: 'TaskFlow Elastic IP - use this to access your app',
     });
 
     new cdk.CfnOutput(this, 'SshCommand', {
