@@ -2,21 +2,21 @@ repos:
   - repo: local
     hooks:
       - id: frontend-eslint
-        name: ESLint (frontend)
+        name: ESLint [frontend]
         entry: "bash -c 'cd frontend && npx eslint --fix --max-warnings=0 \"$@\"' --"
         language: system
         files: ^frontend/.*\.(js|jsx|ts|tsx)$
         pass_filenames: true
 
       - id: frontend-prettier
-        name: Prettier (frontend)
+        name: Prettier [frontend]
         entry: "bash -c 'cd frontend && npx prettier --write \"$@\"' --"
         language: system
         files: ^frontend/.*\.(js|jsx|ts|tsx|css|scss|html|json|md)$
         pass_filenames: true
 
       - id: frontend-typecheck
-        name: TypeScript check (frontend)
+        name: TypeScript check [frontend]
         entry: "bash -c 'cd frontend && npx tsc --noEmit'"
         language: system
         files: ^frontend/.*\.(ts|tsx|js|jsx)$
@@ -25,21 +25,21 @@ repos:
   - repo: local
     hooks:
       - id: backend-eslint
-        name: ESLint (backend)
+        name: ESLint [backend]
         entry: "bash -c 'cd backend && npx eslint --fix --max-warnings=0 \"$@\"' --"
         language: system
         files: ^backend/.*\.(js|ts)$
         pass_filenames: true
 
       - id: backend-prettier
-        name: Prettier (backend)
+        name: Prettier [backend]
         entry: "bash -c 'cd backend && npx prettier --write \"$@\"' --"
         language: system
         files: ^backend/.*\.(js|ts|json|md)$
         pass_filenames: true
 
       - id: backend-typecheck
-        name: TypeScript check (backend)
+        name: TypeScript check [backend]
         entry: "bash -c 'cd backend && npx tsc --noEmit'"
         language: system
         files: ^backend/.*\.(ts|js)$
