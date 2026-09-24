@@ -10,6 +10,7 @@ A production-grade full-stack task management application featuring:
 ---
 
 ## 🗂 Project Structure
+## 🗂 Project Structure
 
 ```
 Assignment/
