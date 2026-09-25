@@ -1,13 +1,13 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/useAuth";
 
 export const Login = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const [form, setForm] = useState({ email: '', password: '' });
-  const [error, setError] = useState('');
+  const [form, setForm] = useState({ email: "", password: "" });
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handle = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -16,12 +16,20 @@ export const Login = () => {
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true); setError('');
+    setLoading(true);
+    setError("");
     try {
       await login(form.email, form.password);
-      navigate('/dashboard');
-    } catch (err: any) {
-      setError(err.response?.data?.error || err.response?.data?.message || 'Login failed. Please try again.');
+      navigate("/dashboard");
+    } catch (err: unknown) {
+      const response = (
+        err as { response?: { data?: { error?: string; message?: string } } }
+      ).response;
+      setError(
+        response?.data?.error ||
+          response?.data?.message ||
+          "Login failed. Please try again.",
+      );
     } finally {
       setLoading(false);
     }
@@ -38,7 +46,9 @@ export const Login = () => {
 
         <form className="auth-form" onSubmit={submit}>
           <div className="form-group">
-            <label className="form-label" htmlFor="login-email">Email</label>
+            <label className="form-label" htmlFor="login-email">
+              Email
+            </label>
             <input
               id="login-email"
               name="email"
@@ -53,7 +63,9 @@ export const Login = () => {
           </div>
 
           <div className="form-group">
-            <label className="form-label" htmlFor="login-password">Password</label>
+            <label className="form-label" htmlFor="login-password">
+              Password
+            </label>
             <input
               id="login-password"
               name="password"
@@ -67,13 +79,27 @@ export const Login = () => {
           </div>
 
           {error && (
-            <div style={{ background: 'var(--danger-bg)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: 'var(--radius-sm)', padding: '0.75rem 1rem', color: 'var(--danger)', fontSize: '0.875rem' }}>
+            <div
+              style={{
+                background: "var(--danger-bg)",
+                border: "1px solid rgba(239,68,68,0.3)",
+                borderRadius: "var(--radius-sm)",
+                padding: "0.75rem 1rem",
+                color: "var(--danger)",
+                fontSize: "0.875rem",
+              }}
+            >
               {error}
             </div>
           )}
 
-          <button id="btn-login" type="submit" className="btn btn-primary btn-lg btn-full" disabled={loading}>
-            {loading ? 'Signing in...' : 'Sign In →'}
+          <button
+            id="btn-login"
+            type="submit"
+            className="btn btn-primary btn-lg btn-full"
+            disabled={loading}
+          >
+            {loading ? "Signing in..." : "Sign In →"}
           </button>
         </form>
 

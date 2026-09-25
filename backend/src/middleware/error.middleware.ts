@@ -1,6 +1,6 @@
-import { Request, Response, NextFunction } from 'express';
-import { ZodError } from 'zod';
-import { logger } from '../utils/logger';
+import { Request, Response, NextFunction } from "express";
+import { ZodError } from "zod";
+import { logger } from "../utils/logger";
 
 export class AppError extends Error {
   public readonly statusCode: number;
@@ -18,14 +18,13 @@ export const errorHandler = (
   err: Error,
   req: Request,
   res: Response,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  _next: NextFunction
+  _next: NextFunction,
 ): void => {
   // Zod validation errors
   if (err instanceof ZodError) {
     res.status(400).json({
       success: false,
-      error:   'Validation Error',
+      error: "Validation Error",
       details: err.flatten().fieldErrors,
     });
     return;
@@ -35,26 +34,33 @@ export const errorHandler = (
   if (err instanceof AppError) {
     res.status(err.statusCode).json({
       success: false,
-      error:   err.message,
+      error: err.message,
     });
     return;
   }
 
   // Postgres unique constraint
-  if ((err as any).code === '23505') {
+  if ((err as any).code === "23505") {
     res.status(409).json({
       success: false,
-      error:   'Conflict',
-      message: 'A record with that value already exists',
+      error: "Conflict",
+      message: "A record with that value already exists",
     });
     return;
   }
 
   // Fallback — unknown error
-  logger.error('Unhandled error', { message: err.message, stack: err.stack, url: req.url });
+  logger.error("Unhandled error", {
+    message: err.message,
+    stack: err.stack,
+    url: req.url,
+  });
   res.status(500).json({
     success: false,
-    error:   'Internal Server Error',
-    message: process.env.NODE_ENV === 'development' ? err.message : 'Something went wrong',
+    error: "Internal Server Error",
+    message:
+      process.env.NODE_ENV === "development"
+        ? err.message
+        : "Something went wrong",
   });
 };

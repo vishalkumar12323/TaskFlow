@@ -1,13 +1,15 @@
-import jwt from 'jsonwebtoken';
-import { env } from '../config/env';
+import jwt from "jsonwebtoken";
+import { env } from "../config/env";
 
 export interface JwtPayload {
   userId: string;
-  role:   'USER' | 'ADMIN';
+  role: "USER" | "ADMIN";
 }
 
 export const signToken = (payload: JwtPayload): string => {
-  return jwt.sign(payload, env.JWT_SECRET, { expiresIn: env.JWT_EXPIRES_IN as jwt.SignOptions['expiresIn'] });
+  return jwt.sign(payload, env.JWT_SECRET, {
+    expiresIn: env.JWT_EXPIRES_IN as jwt.SignOptions["expiresIn"],
+  });
 };
 
 export const verifyToken = (token: string): JwtPayload => {
