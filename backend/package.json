@@ -13,7 +13,8 @@
     "db:migrate": "ts-node src/db/migrate.ts",
     "db:studio": "drizzle-kit studio",
     "db:make-admin": "ts-node src/db/make-admin.ts",
-    "test": "jest --passWithNoTests"
+    "test": "jest --passWithNoTests",
+    "format:check": ""
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
