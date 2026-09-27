@@ -11,3 +11,19 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v7
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Install Dependencies
+        run: npm install
+      
+      - name: Run ES-Lint
+        run: npm run lint
+
+      - name: Check prettier formatting
+        run : npm run format:check
