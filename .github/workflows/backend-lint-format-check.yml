@@ -3,15 +3,17 @@ name: Backend Lint & Format
 on: workflow_call
 
 jobs:
-  lint-format:
+  lint_format:
+    name: Lint and Format
     runs-on: ubuntu-latest
     defaults:
       run:
+        shell: bash
         working-directory: ./backend
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v7
-      
+
       - name: Set up Node.js
         uses: actions/setup-node@v7
         with:
@@ -21,9 +23,13 @@ jobs:
 
       - name: Install Dependencies
         run: npm install
-      
-      - name: Run ES-Lint
-        run: npm run lint
 
-      - name: Check prettier formatting
-        run : npm run format:check
+      - name: Run ES-Lint
+        run: |
+          echo "Linting code..."
+          npm run lint
+
+      - name: Check Code formatting
+        run: |
+          echo "Running code formatting using prettier..."
+          npm run format:check

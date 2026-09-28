@@ -3,10 +3,12 @@ name: Frontend Lint & Format
 on: workflow_call
 
 jobs:
-  lint-format:
+  lint_format:
+    name: Lint and Format
     runs-on: ubuntu-latest
     defaults:
       run:
+        shell: bash
         working-directory: ./frontend
 
     steps:
@@ -24,7 +26,11 @@ jobs:
         run: npm install
 
       - name: Run ES-Lint
-        run: npm run lint
+        run: |
+          echo "Linting code..."
+          npm run lint
 
-      - name: Check prettier formatting
-        run: npm run format:check
+      - name: Check Code formatting
+        run: |
+          echo "Running code formatting using prettier..."
+          npm run format:check
