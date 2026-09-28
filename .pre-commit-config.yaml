@@ -3,21 +3,21 @@ repos:
     hooks:
       - id: frontend-eslint
         name: ESLint [frontend]
-        entry: bash -c 'cd frontend && npx eslint --fix --max-warnings=0 .'
+        entry: python -c "import os, pathlib, subprocess; os.chdir('frontend'); exe = pathlib.Path('node_modules/.bin/eslint'); exe = exe.with_suffix('.cmd') if os.name == 'nt' else exe; raise SystemExit(subprocess.run([str(exe), '--fix', '--max-warnings=0', '.']).returncode)"
         language: system
         files: ^frontend/.*\.(js|jsx|ts|tsx)$
         pass_filenames: false
 
       - id: frontend-prettier
         name: Prettier [frontend]
-        entry: bash -c 'cd frontend && npx prettier --write .'
+        entry: python -c "import os, pathlib, subprocess; os.chdir('frontend'); exe = pathlib.Path('node_modules/.bin/prettier'); exe = exe.with_suffix('.cmd') if os.name == 'nt' else exe; raise SystemExit(subprocess.run([str(exe), '--write', '.']).returncode)"
         language: system
         files: ^frontend/.*\.(js|jsx|ts|tsx|css|scss|html|json|md)$
         pass_filenames: false
 
       - id: frontend-typecheck
         name: TypeScript check [frontend]
-        entry: bash -c 'cd frontend && npx tsc --noEmit'
+        entry: python -c "import os, pathlib, subprocess; os.chdir('frontend'); exe = pathlib.Path('node_modules/.bin/tsc'); exe = exe.with_suffix('.cmd') if os.name == 'nt' else exe; raise SystemExit(subprocess.run([str(exe), '--noEmit']).returncode)"
         language: system
         files: ^frontend/.*\.(ts|tsx|js|jsx)$
         pass_filenames: false
@@ -26,22 +26,21 @@ repos:
     hooks:
       - id: backend-eslint
         name: ESLint [backend]
-        entry: bash -c 'cd backend && npx eslint --fix --max-warnings=0 .'
+        entry: python -c "import os, pathlib, subprocess; os.chdir('backend'); exe = pathlib.Path('node_modules/.bin/eslint'); exe = exe.with_suffix('.cmd') if os.name == 'nt' else exe; raise SystemExit(subprocess.run([str(exe), '--fix', '--max-warnings=0', '.']).returncode)"
         language: system
         files: ^backend/.*\.(js|ts)$
         pass_filenames: false
 
       - id: backend-prettier
         name: Prettier [backend]
-        entry: bash -c 'cd backend && npx prettier --write .'
+        entry: python -c "import os, pathlib, subprocess; os.chdir('backend'); exe = pathlib.Path('node_modules/.bin/prettier'); exe = exe.with_suffix('.cmd') if os.name == 'nt' else exe; raise SystemExit(subprocess.run([str(exe), '--write', '.']).returncode)"
         language: system
         files: ^backend/.*\.(js|ts|json|md)$
         pass_filenames: false
 
       - id: backend-typecheck
         name: TypeScript check [backend]
-        entry: bash -c 'cd backend && npx tsc --noEmit'
+        entry: python -c "import os, pathlib, subprocess; os.chdir('backend'); exe = pathlib.Path('node_modules/.bin/tsc'); exe = exe.with_suffix('.cmd') if os.name == 'nt' else exe; raise SystemExit(subprocess.run([str(exe), '--noEmit']).returncode)"
         language: system
         files: ^backend/.*\.(ts|js)$
         pass_filenames: false
-        
