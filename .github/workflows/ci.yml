@@ -1,0 +1,22 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  frontend_lint_format_check:
+    name: frontend-lint
+    uses: ./.github/workflows/frontend-lint-format-check.yml
+
+  backend_lint_format_check:
+    name: backend-lint
+    uses: ./.github/workflows/backend-lint-format-check.yml
+
+  pipeline_success:
+    name: Pipeline Success
+    needs: [frontend_lint_format_check, backend_lint_format_check]
+    runs-on: ubuntu-latest
