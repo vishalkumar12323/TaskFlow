@@ -7,6 +7,10 @@ on:
   #   branches: [main, master, develop]
   workflow_dispatch:
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   frontend_lint_format_check:
     name: frontend-lint
