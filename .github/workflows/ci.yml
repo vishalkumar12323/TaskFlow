@@ -1,11 +1,11 @@
 name: CI Pipeline
 
 on:
-  # push:
+  push:
   #   branches: [main, master, develop]
   # pull_request:
   #   branches: [main, master, develop]
-  workflow_dispatch:
+  # workflow_dispatch:
 
 jobs:
   frontend_lint_format_check:
@@ -41,3 +41,13 @@ jobs:
 
       - name: Report pipeline success
         run: echo "All required CI checks passed."
+
+  deploy:
+    name: Deploy to AWS
+    needs: [pipeline_success]
+    if: success() && github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+    uses: ./.github/workflows/deploy.yml
+    secrets: inherit
+    permissions:
+      id-token: write
+      contents: read
