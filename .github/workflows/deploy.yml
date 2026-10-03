@@ -3,8 +3,7 @@ name: Deploy to AWS with CDK
 on:
   push:
     branches: [main, master]
-  pull_request:
-    branches: [main, master]
+  workflow_call: # allows ci.yml to trigger this as a reusable workflow
 
 permissions:
   id-token: write
@@ -17,24 +16,24 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: ./
+        working-directory: ./aws/infrastructure
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v7
+        uses: actions/checkout@v4
 
       - name: Debug OIDC Claims
         shell: bash
         run: |
-          OIDC_TOKEN=$(curl -s -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \ 
-          "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=sts.amazonaws.com" \ 
+          OIDC_TOKEN=$(curl -s -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
+          "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=sts.amazonaws.com" \
           | jq -r '.value')
 
           echo "OIDC Token Claims"
-          echo "#OIDC_TOKEN" | cut -d '.' -f2 | base64 -d 2>/dev/null | jq .
+          echo "$OIDC_TOKEN" | cut -d '.' -f2 | base64 -d 2>/dev/null | jq .
 
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v6
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::794314733919:role/GitHubActionsAWSAccess
           aws-region: ap-south-1
@@ -43,14 +42,17 @@ jobs:
         run: aws sts get-caller-identity
 
       - name: Set up Nodejs
-        uses: actions/setup-node@v7
+        uses: actions/setup-node@v4
         with:
           node-version: 24
           cache: npm
-          cache-dependency-path: package-lock.json
+          cache-dependency-path: aws/infrastructure/package-lock.json
 
       - name: Install CDK Deps
         run: npm ci
+
+      - name: Build TypeScript
+        run: npm run build
 
       - name: Deploy CDK Stack
         run: npx cdk deploy --all --require-approval never
