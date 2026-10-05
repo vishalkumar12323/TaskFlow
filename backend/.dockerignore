@@ -1,0 +1,41 @@
+# ── Version control ──────────────────────────────────────────────
+.git
+.gitignore
+
+# ── Dependencies (reinstalled inside container) ───────────────────
+node_modules
+
+# ── Build output (rebuilt inside container) ──────────────────────
+dist
+
+# ── Local environment secrets ─────────────────────────────────────
+.env
+.env.local
+.env.*.local
+
+# ── Dev / tooling configs not needed at runtime ───────────────────
+.eslintrc*
+eslint.config.mjs
+.prettierrc*
+jest.config*
+*.test.ts
+*.spec.ts
+
+# ── Logs ──────────────────────────────────────────────────────────
+logs
+*.log
+npm-debug.log*
+
+# ── OS artefacts ──────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+
+# ── Editor configs ────────────────────────────────────────────────
+.vscode
+.idea
+*.swp
+*.swo
+
+# ── Docker files themselves ────────────────────────────────────────
+Dockerfile
+.dockerignore
