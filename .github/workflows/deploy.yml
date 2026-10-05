@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   deploy:
-    name: Deploy code aws cloud
+    name: Deploy code to aws cloud
     runs-on: ubuntu-latest
     defaults:
       run:
