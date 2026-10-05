@@ -32,20 +32,24 @@ apt-get install -y \
   jq
 
 # AWS-CLI v2 Install
-cd ~
-curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+# cd ~
+# curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
 # Unzip and run the aws-cli installer
-unzip -q awscliv2.zip
-./aws/install
-# Cleanup the installtion files
-rm -rf awscliv2.zip ./aws
+# unzip -q awscliv2.zip
+# ./aws/install
+# # Cleanup the installtion files
+# rm -rf awscliv2.zip ./aws
 
 
-# Download and install nvm:
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.8/install.sh | bash
-\. "$HOME/.nvm/nvm.sh"
+# # Node.js 22.x
+curl -fsSL https://deb.nodesource.com/setup_24.x | bash -
+apt-get install -y nodejs
 
-nvm install --lts
+# # Download and install nvm:
+# curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.8/install.sh | bash
+# \. "$HOME/.nvm/nvm.sh"
+
+# nvm install --lts
 
 # Download and install pm2
 npm install -g pm2
@@ -150,13 +154,12 @@ EOF
 chown ubuntu:ubuntu .env
 
 # Install dependencies and build
-sudo -u ubuntu npm install
-sudo -u ubuntu npm run build
+sudo -u ubuntu bash -l -c "cd $PROJECT_DIR/backend && npm install"
+sudo -u ubuntu bash -l -c "cd $PROJECT_DIR/backend && npm run build"
 
-# Push database schema (drizzle-kit push creates tables from schema)
-sudo -u ubuntu npx drizzle-kit push --force 2>/dev/null \
-  || echo "y" | sudo -u ubuntu npx drizzle-kit push \
-  || echo "  ⚠ drizzle-kit push failed — run manually: cd $PROJECT_DIR/backend && npm run db:push"
+# Push database schema safely
+sudo -u ubuntu bash -l -c "cd $PROJECT_DIR/backend && (npx drizzle-kit push --force 2>/dev/null || echo 'y' | npx drizzle-kit push)" \
+|| echo " ⚠ drizzle-kit push failed — run manually: cd $PROJECT_DIR/backend && npm run db:push"
 
 # Start backend with PM2
 sudo -u ubuntu bash -c "cd $PROJECT_DIR/backend && pm2 start npm --name taskflow-api -- start"
@@ -246,5 +249,5 @@ echo "  ✅ TaskFlow Bootstrap Complete!"
 echo "============================================"
 echo "  Frontend: http://${PUBLIC_IP}"
 echo "  Backend:  http://${PUBLIC_IP}/api/v1/health"
-echo "  SSH:      ssh -i SSH-LOOKUP.pem ubuntu@${PUBLIC_IP}"
+echo "  SSH:      ssh -i server_access.pem ubuntu@${PUBLIC_IP}"
 echo "============================================"
