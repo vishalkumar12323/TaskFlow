@@ -41,10 +41,13 @@ unzip -q awscliv2.zip
 rm -rf awscliv2.zip ./aws
 
 
-# Node.js 22.x
-curl -fsSL https://deb.nodesource.com/setup_22.x | bash -
-apt-get install -y nodejs
+# Download and install nvm:
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.8/install.sh | bash
+\. "$HOME/.nvm/nvm.sh"
 
+nvm install --lts
+
+# Download and install pm2
 npm install -g pm2
 
 # ─── Enable Services ────────────────────────────────────────────────────────
