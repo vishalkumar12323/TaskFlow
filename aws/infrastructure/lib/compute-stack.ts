@@ -15,7 +15,8 @@ export class ComputeStack extends cdk.Stack {
     super(scope, id, props);
 
     const vpc = props.vpc;
-    const keyPairName = this.node.tryGetContext("keyPairName") || "MyEC2Server";
+    const keyPairName =
+      this.node.tryGetContext("keyPairName") || "server_access";
 
     // ─── Security Group ────────────────────────────────────────────────
     const securityGroup = new ec2.SecurityGroup(this, "Ec2SecurityGroup", {
