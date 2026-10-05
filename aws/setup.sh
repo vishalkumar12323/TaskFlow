@@ -31,14 +31,14 @@ apt-get install -y \
   build-essential \
   jq
 
-# AWS-CLI v2 Install
-# cd ~
-# curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-# Unzip and run the aws-cli installer
-# unzip -q awscliv2.zip
-# ./aws/install
-# # Cleanup the installtion files
-# rm -rf awscliv2.zip ./aws
+AWS-CLI v2 Install
+cd ~
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+Unzip and run the aws-cli installer
+unzip -q awscliv2.zip
+./aws/install
+# Cleanup the installtion files
+rm -rf awscliv2.zip ./aws
 
 
 # # Node.js 22.x
