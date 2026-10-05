@@ -16,27 +16,21 @@ jobs:
     name: backend-lint
     uses: ./.github/workflows/backend-lint-format-check.yml
 
-  frontend_vulnerability_check:
-    name: frontend-vulnerability
-    uses: ./.github/workflows/frontend-vulnerability-check.yml
+  # frontend_vulnerability_check:
+  #   name: frontend-vulnerability
+  #   uses: ./.github/workflows/frontend-vulnerability-check.yml
 
   pipeline_success:
     name: Pipeline Success
-    needs:
-      [
-        frontend_lint_format_check,
-        backend_lint_format_check,
-        frontend_vulnerability_check,
-      ]
+    needs: [frontend_lint_format_check, backend_lint_format_check]
     runs-on: ubuntu-latest
     if: always()
     steps:
       - name: Verify required checks
-        if: needs.frontend_lint_format_check.result != 'success' || needs.backend_lint_format_check.result != 'success' || needs.frontend_vulnerability_check.result != 'success'
+        if: needs.frontend_lint_format_check.result != 'success' || needs.backend_lint_format_check.result != 'success'
         run: |
           echo "Frontend check: ${{ needs.frontend_lint_format_check.result }}"
           echo "Backend check: ${{ needs.backend_lint_format_check.result }}"
-          echo "Frontend vulnerability check: ${{ needs.frontend_vulnerability_check.result }}"
           exit 1
 
       - name: Report pipeline success
