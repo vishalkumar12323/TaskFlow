@@ -54,27 +54,27 @@ jobs:
       - name: Build TypeScript
         run: npm run build
 
-      - name: Bootstrap CDK Environment
-        run: npx cdk bootstrap aws://794314733919/ap-south-1 --force
+      # - name: Bootstrap CDK Environment
+      #   run: npx cdk bootstrap aws://794314733919/ap-south-1 --force
 
-      - name: Clean Up Stale CloudFormation Changesets
-        run: |
-          for stack in TaskFlow-NetworkStack TaskFlow-DatabaseStack TaskFlow-ComputeStack; do
-            echo "Checking for stale changeset in $stack..."
-            STATUS=$(aws cloudformation describe-change-set \
-              --stack-name "$stack" \
-              --change-set-name cdk-deploy-change-set \
-              --query 'Status' \
-              --output text 2>/dev/null || echo "NOT_FOUND")
-            if [[ "$STATUS" != "NOT_FOUND" && "$STATUS" != "EXECUTE_COMPLETE" ]]; then
-              echo "Deleting stale changeset in $stack (status: $STATUS)..."
-              aws cloudformation delete-change-set \
-                --stack-name "$stack" \
-                --change-set-name cdk-deploy-change-set || true
-            else
-              echo "No stale changeset found in $stack."
-            fi
-          done
+      # - name: Clean Up Stale CloudFormation Changesets
+      #   run: |
+      #     for stack in TaskFlow-NetworkStack TaskFlow-DatabaseStack TaskFlow-ComputeStack; do
+      #       echo "Checking for stale changeset in $stack..."
+      #       STATUS=$(aws cloudformation describe-change-set \
+      #         --stack-name "$stack" \
+      #         --change-set-name cdk-deploy-change-set \
+      #         --query 'Status' \
+      #         --output text 2>/dev/null || echo "NOT_FOUND")
+      #       if [[ "$STATUS" != "NOT_FOUND" && "$STATUS" != "EXECUTE_COMPLETE" ]]; then
+      #         echo "Deleting stale changeset in $stack (status: $STATUS)..."
+      #         aws cloudformation delete-change-set \
+      #           --stack-name "$stack" \
+      #           --change-set-name cdk-deploy-change-set || true
+      #       else
+      #         echo "No stale changeset found in $stack."
+      #       fi
+      #     done
 
       - name: Deploy CDK Stack
         run: npx cdk deploy --all --require-approval never
