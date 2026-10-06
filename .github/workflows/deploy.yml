@@ -55,10 +55,7 @@ jobs:
         run: npm run build
 
       - name: Bootstrap CDK Environment
-        run: |
-          echo "=== Bootstrapping CDK ==="
-          npx cdk bootstrap aws://794314733919/ap-south-1 --verbose 2>&1
-          echo "=== Bootstrap exit code: $? ==="
+        run: npx cdk bootstrap aws://794314733919/ap-south-1 --force
 
       - name: Verify Bootstrap SSM Parameter
         run: |
