@@ -57,13 +57,5 @@ jobs:
       - name: Bootstrap CDK Environment
         run: npx cdk bootstrap aws://794314733919/ap-south-1 --force
 
-      - name: Verify Bootstrap SSM Parameter
-        run: |
-          aws ssm get-parameter \
-            --name "/cdk-bootstrap/hnb659fds/version" \
-            --region ap-south-1 \
-            --query "Parameter.Value" \
-            --output text
-
       - name: Deploy CDK Stack
         run: npx cdk deploy --all --require-approval never
