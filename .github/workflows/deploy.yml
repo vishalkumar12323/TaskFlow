@@ -55,4 +55,4 @@ jobs:
         run: npm run build
 
       - name: Deploy CDK Stack
-        run: npx cdk deploy --require-approval never
+        run: npx cdk deploy --all --require-approval never
