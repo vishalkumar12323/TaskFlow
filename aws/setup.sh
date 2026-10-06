@@ -31,10 +31,10 @@ apt-get install -y \
   build-essential \
   jq
 
-AWS-CLI v2 Install
+#AWS-CLI v2 Install
 cd ~
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-Unzip and run the aws-cli installer
+#Unzip and run the aws-cli installer
 unzip -q awscliv2.zip
 ./aws/install
 # Cleanup the installtion files
@@ -157,9 +157,10 @@ chown ubuntu:ubuntu .env
 sudo -u ubuntu bash -l -c "cd $PROJECT_DIR/backend && npm install"
 sudo -u ubuntu bash -l -c "cd $PROJECT_DIR/backend && npm run build"
 
-# Push database schema safely
-sudo -u ubuntu bash -l -c "cd $PROJECT_DIR/backend && (npx drizzle-kit push --force 2>/dev/null || echo 'y' | npx drizzle-kit push)" \
-|| echo " ⚠ drizzle-kit push failed — run manually: cd $PROJECT_DIR/backend && npm run db:push"
+# Generate and Migrate database schema safely
+sudo -u ubuntu bash -l -c "cd $PROJECT_DIR/backend && npm run db:generate"
+sudo -u ubuntu bash -l -c "cd $PROJECT_DIR/backend && npm run db:migrate"
+
 
 # Start backend with PM2
 sudo -u ubuntu bash -c "cd $PROJECT_DIR/backend && pm2 start npm --name taskflow-api -- start"
