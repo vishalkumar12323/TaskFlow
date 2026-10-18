@@ -90,6 +90,9 @@ RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 
 WORKDIR /app
 
+# Winston writes production logs under /app/logs.
+RUN mkdir -p /app/logs && chown appuser:appgroup /app/logs
+
 # Copy pruned production node_modules from builder
 COPY --from=builder --chown=appuser:appgroup /app/node_modules ./node_modules
 
